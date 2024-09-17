@@ -1,18 +1,13 @@
 import os
 from sqlalchemy import create_engine, text
-import pandas as pd
 
 # Connection URL format:
-username = "group32"
-password = "P3anutButt3rAndJ3lly32"
-instance = "35.230.1.180"
-database_name = "mental_health_hub"
-conn_str_gcp = f"postgresql+psycopg2://{username}:{password}@{instance}/{database_name}"
+##  conn_str_gcp = "postgresql+psycopg2://your-username:your-password@your-instance-public-ip:5432/your-database-name"
 
-#DATABASE_URL = os.getenv('conn_str_gcp')
+DATABASE_URL = os.getenv('CONNECTION_STRING')
 
 # Create an SQLAlchemy engine
-engine = create_engine(conn_str_gcp)
+engine = create_engine(DATABASE_URL)
 
 
 ## Test connection
@@ -24,8 +19,8 @@ try:
         print(f"Connected to: {version[0]}")
 
 except Exception as error:
-     print(f"Error connecting to the database: {error}")
-'''
+    print(f"Error connecting to the database: {error}")
+
 # Load CSV file into a pandas DataFrame: change the file name below
 csv_file_path = 'your_file_path.csv'
 df = pd.read_csv(csv_file_path)
@@ -41,4 +36,4 @@ try:
     print(f"Table '{table_name}' created successfully and data inserted.")
 
 except Exception as error:
-    print(f"Error creating the table: {error}")'''
+    print(f"Error creating the table: {error}")
