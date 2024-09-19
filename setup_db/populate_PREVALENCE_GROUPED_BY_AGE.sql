@@ -1,5 +1,4 @@
 -- Data Wrangling for Relationship Table DISORDER_METRICS
-
 CREATE SEQUENCE id_sequence_prevalence_grouped START = 1 INCREMENT = 1;
 
 -- Data for the Depressive Disorders
