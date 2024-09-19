@@ -1,0 +1,54 @@
+
+-- populating the metric table
+
+CREATE SEQUENCE mental_health_hub.public.metric_seq
+    START WITH 1
+    INCREMENT BY 1;
+
+INSERT INTO mental_health_hub.public.Metric (id, country_metric, type_of_value, source)
+    VALUES 
+        (mental_health_hub.public.metric_seq.NEXTVAL, 'GDP', 'Value', 'Source1'),
+        (mental_health_hub.public.metric_seq.NEXTVAL, 'Income', 'Value', 'Source2'),
+        (mental_health_hub.public.metric_seq.NEXTVAL, 'Internet Usage', 'Value', 'Source3'),
+        (mental_health_hub.public.metric_seq.NEXTVAL, 'Life Expectancy', 'Value', 'Source4'),
+        (mental_health_hub.public.Metric_seq.NEXTVAL, 'Median Age', 'Value', 'Source5'),
+        (mental_health_hub.public.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6');
+
+-- populating the Social economic table
+
+-- Insert data for GM_GDP
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 1 AS metric_id -- Use 1 for GDP
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_GDP s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
+-- Insert data for GM_INCOME
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 2 AS metric_id -- Use 2 for Income
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_INCOME s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
+-- Insert data for GM_INTERNET
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 3 AS metric_id -- Use 3 for Internet Usage
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_INTERNET s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
+-- Insert data for GM_LIFE_EXP
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 4 AS metric_id -- Use 4 for Life Expectancy
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_LIFE_EXP s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
+-- Insert data for GM_MED_AGE
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 5 AS metric_id -- Use 5 for Median Age
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_MED_AGE s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
+-- Insert data for GM_SUICIDE_COUNT
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (year, value, country_id, metric_id)
+    SELECT s.year, s.value, c.id AS country_id, 6 AS metric_id -- Use 6 for Suicide Count
+FROM MENTAL_HEALTH_HUB.PUBLIC.GM_SUICIDE_COUNT s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.country_name;
+
