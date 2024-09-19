@@ -61,7 +61,7 @@ CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Prevalence_Grouped_By_Age(
 CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators(
     id INT PRIMARY KEY,
     year INT,
-    value FLOAT,
+    VALUE VARCHAR(500),
     country_id VARCHAR(50),
     indicator_id INT,
     FOREIGN KEY (country_id) REFERENCES MENTAL_HEALTH_HUB.PUBLIC.Country(id),
@@ -128,16 +128,12 @@ INSERT INTO mental_health_hub.public.Metric (id, country_metric, type_of_value, 
         (mental_health_hub.public.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6');
 
 -- Indicator
-CREATE SEQUENCE mental_health_hub.public.indicator_seq
-    START WITH 1
-    INCREMENT BY 1;
-
 INSERT INTO mental_health_hub.public.Indicator (id, mental_health_indicator, type_of_value)
     VALUES 
-        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Death Rate', 'Rate per 100,000 People'),
-        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Mental Health Units in General Hospital', 'Units per 100,000 People'),
-        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Pyschiatrists in Mental Health', 'Psychiatrists per 100,000 People'),
-        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Policy Regarding Mental Health', 'Yes/No Values');
+        (1, 'Death Rate', 'Rate per 100,000 People'),
+        (2, 'Mental Health Units in General Hospital', 'Units per 100,000 People'),
+        (3, 'Pyschiatrists in Mental Health', 'Psychiatrists per 100,000 People'),
+        (4, 'Policy Regarding Mental Health', 'Yes/No Values');
 
 ------------------------------------------------------------------------------------------------
 -- Data wrangling: INSERT statements that use SELECT statements to populate relationship tables.
