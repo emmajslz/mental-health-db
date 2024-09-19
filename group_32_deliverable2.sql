@@ -124,6 +124,12 @@ INSERT INTO mental_health_hub.public.Metric (id, country_metric, type_of_value, 
         (mental_health_hub.public.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6');
 
 -- Indicator
+INSERT INTO mental_health_hub.public.Indicator (id, mental_health_indicator, type_of_value)
+    VALUES 
+        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Death Rate', 'Rate per 100,000 People'),
+        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Mental Health Units in General Hospital', 'Units per 100,000 People'),
+        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Pyschiatrists in Mental Health', 'Psychiatrists per 100,000 People'),
+        (mental_health_hub.public.indicator_seq.NEXTVAL, 'Policy Regarding Mental Health', 'Yes/No Values');
 
 ------------------------------------------------------------------------------------------------
 -- Data wrangling: INSERT statements that use SELECT statements to populate relationship tables.
@@ -350,9 +356,64 @@ INSERT INTO mental_health_hub.public.Prevalence_Grouped_By_Age(
 ------- Social_Economical_Metrics --------------------------------------------------------------
 ------- Mental_Health_Indicators ---------------------------------------------------------------
 
+CREATE SEQUENCE indicator_seq START = 1 INCREMENT = 1;
+
+-- Data for Mental Health Policy
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
+    SELECT indicator_seq.NEXTVAL AS ID,
+           y.year AS YEAR, 
+           y.policy AS VALUE, 
+           c.id AS country_id, 
+           1 AS indicator_id
+FROM MENTAL_HEALTH_HUB.DATASETS.INDICATOR_MH_POLICY y
+    FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
+);
+
+-- Data for Mental Health Units In Hospitals
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
+    SELECT indicator_seq.NEXTVAL AS ID,
+           y.year AS YEAR, 
+           y.mental_health_units AS VALUE, 
+           c.id AS country_id, 
+           2 AS indicator_id
+FROM MENTAL_HEALTH_HUB.DATASETS.INDICATOR_MH_UNITS_HOSPITAL y
+    FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
+);
+
+-- Data for Number of Psychiatrists
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
+    SELECT indicator_seq.NEXTVAL AS ID,
+           y.year AS YEAR, 
+           y.psychiatry AS VALUE, 
+           c.id AS country_id, 
+           3 AS indicator_id
+FROM MENTAL_HEALTH_HUB.DATASETS.Indicator_Psychiatry_Hospital y
+    FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
+);
+
+-- Data for Death Rate
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
+    SELECT indicator_seq.NEXTVAL AS ID,
+           y.year AS YEAR, 
+           y.death_rate_all_ages AS VALUE, 
+           c.id AS country_id, 
+           4 AS indicator_id
+FROM MENTAL_HEALTH_HUB.DATASETS.Indicator_Death_Rate y
+    FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
+);
+
 ------------------------------------------------------------------------------------------------
 -- Data wrangling: INSERT statements that use SELECT statements to populate entity table COUNTRY
 ------------------------------------------------------------------------------------------------
+
+-- Country
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Country(
+    SELECT c.id AS ID,
+           c.country AS COUNTRY,
+           c.continent AS CONTINENT
+    FROM mental_health_hub.datasets.CONTINENTS_MAPPED_COUNTRIES c
+    WHERE len(c.id) <=3
+);
 
 
 /*
