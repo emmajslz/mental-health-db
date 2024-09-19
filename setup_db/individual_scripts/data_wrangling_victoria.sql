@@ -12,7 +12,8 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Metric (id, country_metric, type_of_value, 
         (MENTAL_HEALTH_HUB.PUBLIC.metric_seq.NEXTVAL, 'Internet Usage', 'Value', 'Source3'),
         (MENTAL_HEALTH_HUB.PUBLIC.metric_seq.NEXTVAL, 'Life Expectancy', 'Value', 'Source4'),
         (MENTAL_HEALTH_HUB.PUBLIC.Metric_seq.NEXTVAL, 'Median Age', 'Value', 'Source5'),
-        (MENTAL_HEALTH_HUB.PUBLIC.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6');
+        (MENTAL_HEALTH_HUB.PUBLIC.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6')
+        (MENTAL_HEALTH_HUB.PUBLIC.metric_seq.NEXTVAL, 'Population', 'Value', 'Source7');
 
 
 -- populating the Social economic table
@@ -86,6 +87,21 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value,
         AND sem.country_id = c.id 
         AND sem.metric_id = 6
     );
+
+INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value, country_id, metric_id)
+    SELECT mental_health_hub.public.metric_seq.NEXTVAL, s.year, 
+           REGEXP_REPLACE(s.value, '[^0-9]', '')::NUMERIC AS value, 
+           c.id AS country_id, 7 AS metric_id -- Use 7 for Population
+    FROM MENTAL_HEALTH_HUB.DATASETS.GM_POPULATION s
+    JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.name
+    WHERE NOT EXISTS (
+        SELECT 1 
+        FROM MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics sem
+        WHERE sem.year = s.year 
+        AND sem.country_id = c.id 
+        AND sem.metric_id = 7
+    );
+
 
 
 
