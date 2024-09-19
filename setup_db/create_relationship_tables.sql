@@ -1,9 +1,9 @@
-CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.DISORDER_METRICS(
-    ID INT PRIMARY KEY,
-    YEAR INT,
-    PREVALENCE FLOAT,
-    PREVALENCE_AGE_STANDARDIZED FLOAT,
-    NUMBER_OF_CASES INT,
+CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Disorder_Metrics(
+    id INT PRIMARY KEY,
+    year INT,
+    prevalence FLOAT,
+    prevalence_age_standardized FLOAT,
+    number_of_cases INT,
     country_id VARCHAR(50),
     disorder_id INT,
     FOREIGN KEY (country_id) REFERENCES MENTAL_HEALTH_HUB.PUBLIC.Country(id),
@@ -11,10 +11,10 @@ CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.DISORDER_METRICS(
 );
 
 CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Prevalence_Grouped_By_Age(
-    ID INT PRIMARY KEY,
-    YEAR INT,
-    PREVALENCE FLOAT,
-    AGE_INTERVAL VARCHAR,
+    id INT PRIMARY KEY,
+    year INT,
+    prevalence FLOAT,
+    age_interval VARCHAR,
     country_id VARCHAR(50),
     disorder_id INT,
     FOREIGN KEY (country_id) REFERENCES MENTAL_HEALTH_HUB.PUBLIC.Country(id),
@@ -22,9 +22,9 @@ CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Prevalence_Grouped_By_Age(
 );
 
 CREATE TABLE MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators(
-    ID INT PRIMARY KEY,
-    YEAR INT,
-    VALUE FLOAT,
+    id INT PRIMARY KEY,
+    year INT,
+    value FLOAT,
     country_id VARCHAR(50),
     indicator_id INT,
     FOREIGN KEY (country_id) REFERENCES MENTAL_HEALTH_HUB.PUBLIC.Country(id),
