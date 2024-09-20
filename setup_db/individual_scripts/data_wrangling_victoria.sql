@@ -38,7 +38,9 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value,
 
 -- Insert data for GM_INTERNET
 INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value, country_id, metric_id)
-    SELECT mental_health_hub.public.metric_seq.NEXTVAL, s.year, s.value, c.id AS country_id, 3 AS metric_id -- Use 3 for Internet Usage
+    SELECT mental_health_hub.public.metric_seq.NEXTVAL, s.year, 
+           REGEXP_REPLACE(s.value, '[^0-9\.]', '')::NUMERIC AS value, 
+           c.id AS country_id, 3 AS metric_id -- Use 3 for Internet Usage
     FROM MENTAL_HEALTH_HUB.DATASETS.GM_INTERNET s
     JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.name
     WHERE NOT EXISTS (
@@ -77,7 +79,9 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value,
 
 -- Insert data for GM_SUICIDE_COUNT
 INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value, country_id, metric_id)
-    SELECT mental_health_hub.public.metric_seq.NEXTVAL, s.year, s.value, c.id AS country_id, 6 AS metric_id -- Use 6 for Suicide Count
+    SELECT mental_health_hub.public.metric_seq.NEXTVAL, s.year, 
+           REGEXP_REPLACE(s.value, '[^0-9]', '')::NUMERIC AS value, 
+           c.id AS country_id, 6 AS metric_id -- Use 6 for Suicide Count
     FROM MENTAL_HEALTH_HUB.DATASETS.GM_SUICIDE_COUNT s
     JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON s.country = c.name
     WHERE NOT EXISTS (
