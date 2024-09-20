@@ -14,6 +14,9 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Metric (id, country_metric, type_of_value, 
         (MENTAL_HEALTH_HUB.PUBLIC.Metric_seq.NEXTVAL, 'Median Age', 'Value', 'Source5'),
         (MENTAL_HEALTH_HUB.PUBLIC.Metric_seq.NEXTVAL, 'Suicide Count', 'Count', 'Source6')
         (MENTAL_HEALTH_HUB.PUBLIC.metric_seq.NEXTVAL, 'Population', 'Value', 'Source7');
+    
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.metric
+SET source = 'https://www.gapminder.org/data/';
 
 
 -- populating the Social economic table
@@ -105,6 +108,31 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value,
         AND sem.country_id = c.id 
         AND sem.metric_id = 7
     );
+
+
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.disorder
+SET symptoms = 'Persistent sad, anxious, or “empty” mood.
+Feelings of hopelessness or pessimism.'
+WHERE ID = 1
+
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.disorder
+SET symptoms = 'Feeling nervous, restless or tense.
+Having a sense of impending danger, panic or doom.'
+WHERE ID = 2
+
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.disorder
+SET symptoms = 'increased energy, excitement, impulsive behaviour, and agitation'
+WHERE ID = 3
+
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.disorder
+SET symptoms = 'delusions, hallucinations, disorganized speech, trouble with thinking and lack of motivation'
+WHERE ID = 4
+
+UPDATE MENTAL_HEALTH_HUB.PUBLIC.disorder
+SET symptoms = 'Dramatic restriction of types or amount of food eaten'
+WHERE ID = 5
+
+
 
 
 
