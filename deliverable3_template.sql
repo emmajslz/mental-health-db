@@ -107,11 +107,12 @@ WITH yearly_correlation AS (
     WHERE sem.metric_id = 2 AND sem.year BETWEEN 1995 AND 2019
     GROUP BY sem.year, dsm.country_id
 )
-SELECT country_id, 
-       AVG(correlation_coefficient) avg_correlation
-FROM yearly_correlation
-GROUP BY country_id
-ORDER BY country_id;
+SELECT c.name, 
+       AVG(y.correlation_coefficient) avg_correlation
+FROM yearly_correlation y
+    LEFT JOIN country c ON c.id = y.country_id
+GROUP BY c.name
+ORDER BY c.name;
 
 
 /*Life_Expectancy_Prevalence: Correlation betwen life expectancy and prevalence*/
@@ -148,17 +149,37 @@ GROUP BY country_id
 ORDER BY country_id;
 
 
-/*[Metric 7 Title]: [Metric definition]*/
-
-
-
-
-/*[Metric 8 Title]: [Metric definition]*/
-
-
-
-
-/*[Metric 9 Title]: [Metric definition]*/
+/*[Death_Rate_Prevalence]: [Correlation between death rate and prevalence]*/
+WITH death_vs_prevalence AS (
+        SELECT
+            i.country_id
+            ,i.year
+            ,(FLOOR(i.year / 10) * 10) AS decade
+            ,dm.disorder_id
+            ,dm.prevalence_age_standardized
+            ,i.value::FLOAT AS death_rate
+        FROM mental_health_indicators i
+            LEFT JOIN disorder_metrics dm ON i.country_id = dm.country_id AND i.year = dm.year
+        WHERE i.indicator_id = (SELECT id FROM Indicator WHERE mental_health_indicator LIKE '%Death Rate%')
+)
+, corr_coefficient AS (
+    SELECT
+        country_id
+        ,decade
+        ,disorder_id
+        ,CORR(death_rate, prevalence_age_standardized) AS correlation_coefficient
+    FROM death_vs_prevalence
+    GROUP BY 1,2,3
+)
+SELECT
+    c.name
+    ,cc.decade
+    ,d.name AS disorder
+    ,ROUND(cc.correlation_coefficient,2) AS correlation_deathrate_prevalence
+FROM corr_coefficient cc
+    LEFT JOIN country c ON cc.country_id = c.id
+    LEFT JOIN disorder d ON cc.disorder_id = d.id
+ORDER BY 1,3,2
 
 
 

@@ -479,14 +479,14 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Social_Economical_Metrics (id, year, value,
 
 CREATE SEQUENCE indicator_seq START = 1 INCREMENT = 1;
 
--- Data for Mental Health Policy
+-- Data for Death Rate
 INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
     SELECT indicator_seq.NEXTVAL AS ID,
            y.year AS YEAR, 
-           y.policy AS VALUE, 
+           y.death_rate_all_ages AS VALUE, 
            c.id AS country_id, 
            1 AS indicator_id
-    FROM MENTAL_HEALTH_HUB.DATASETS.INDICATOR_MH_POLICY y
+    FROM MENTAL_HEALTH_HUB.DATASETS.Indicator_Death_Rate y
         FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
 );
 
@@ -512,14 +512,14 @@ INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
         FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
 );
 
--- Data for Death Rate
+-- Data for Mental Health Policy
 INSERT INTO MENTAL_HEALTH_HUB.PUBLIC.Mental_Health_Indicators (
     SELECT indicator_seq.NEXTVAL AS ID,
            y.year AS YEAR, 
-           y.death_rate_all_ages AS VALUE, 
+           y.policy AS VALUE, 
            c.id AS country_id, 
            4 AS indicator_id
-    FROM MENTAL_HEALTH_HUB.DATASETS.Indicator_Death_Rate y
+    FROM MENTAL_HEALTH_HUB.DATASETS.INDICATOR_MH_POLICY y
         FULL JOIN MENTAL_HEALTH_HUB.PUBLIC.Country c ON y.entity = c.name
 );
 
